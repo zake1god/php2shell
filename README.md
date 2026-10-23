@@ -562,18 +562,34 @@ The second removes generated proof artifacts while preserving `.gitkeep`.
 
 ## Credits and Attribution
 
-- **Zake (`zake1god`) / Zarxec Lab** - local integration, loopback guard,
-  Docker control matrix, WSL pointer-range compatibility, verification,
-  documentation, fictional company website, and original banner direction.
-- **godylockz** - public Python exploit implementation used as the technical
-  base, pinned from commit
-  `a4f91107f8425a835147e27da06954023066300a`.
-- **9bie and the researchers named in `poc-cve-2026-109618.py`** - underlying public
-  exploit primitives and research contributions.
-- **PHP security team and contributors** - advisories, fixes, and fixed
-  releases.
-- The `eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC` repository was
-  reviewed only as documentation-layout inspiration. Zarxec branding, the
+- [**Zake (`zake1god`) / Zarxec Lab**](https://zarxec.com/) - local
+  integration, loopback guard, Docker control matrix, WSL pointer-range
+  compatibility, verification, documentation, fictional company website, and
+  original banner direction.
+- [**godylockz**](https://github.com/godylockz/cve-2026-109618-php2shell) -
+  public Python exploit implementation used as the technical base, pinned at
+  [commit `a4f91107f8425a835147e27da06954023066300a`](https://github.com/godylockz/cve-2026-109618-php2shell/commit/a4f91107f8425a835147e27da06954023066300a).
+- [**Wiz Research**](https://www.wiz.io/blog/php2shell-php-rce) - discovery
+  and public analysis of the PHP2Shell vulnerability families.
+- [**9bie**](https://github.com/9bie/php2shell-bypass-aslr-exp) - original
+  public Set-Cookie heap leak, `libphp` leak, and forged-destructor exploit
+  primitives used by the ported chain.
+- [**Calif**](https://calif.io/php2shell/) - upload-metadata amplification
+  analysis.
+- [**Karasawa2025**](https://github.com/Karasawa2025) - research direction
+  for `display_errors=Off` environments; that path is not shipped here.
+- [**WoYinDao**](https://github.com/WoYinDao) - session-lifecycle and
+  pre-RINIT OOM-window research.
+- [**Sansec**](https://sansec.io/research/php2shell) - public technical
+  write-up and independent research context.
+- [**devploit**](https://github.com/devploit/php2shell) - version-aware
+  dispatcher, memory-limit probe, build-profile workflow, and per-feature
+  attribution inspiration.
+- [**PHP Security Team**](https://www.php.net/security/) and the
+  [**PHP Foundation**](https://thephp.foundation/) - coordinated advisories,
+  fixes, release engineering, and maintenance of the fixed PHP releases.
+- [**eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC**](https://github.com/eness/php2shell-CVE-2026-109618-CVE-2026-109619-PoC)
+  was reviewed only as documentation-layout inspiration. Zarxec branding, the
   Docker fixture, controls, prose, and visual assets in this repository are
   original to this project.
 
@@ -583,3 +599,12 @@ Do not remove the loopback restriction or run memory-exhaustion and worker-reuse
 payloads against public, customer, or third-party systems. A PHP version header
 is not proof of vulnerability, missing vendor backports, exploitability, or
 authorization.
+
+> [!WARNING]
+> **LAB-ONLY RCE — FOR LEARNING AND DEFENSIVE VALIDATION.** The RCE
+> demonstration in this repository is designed exclusively for the
+> included disposable loopback lab or an equivalent isolated environment that
+> you own. It must not be used to access, disrupt, damage, or obtain a shell on
+> another person's system. Keep the exploit restriction intact, patch exposed
+> PHP deployments, and use the project to understand and prevent compromise—not
+> to cause it.
