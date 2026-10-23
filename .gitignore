@@ -1,0 +1,16 @@
+# Generated execution artifacts
+out/*
+!out/.gitkeep
+
+# Retained local verification bundles
+lab/evidence/
+
+# Python and editor artifacts
+__pycache__/
+*.py[cod]
+.idea/
+.vscode/
+
+# OS metadata
+.DS_Store
+Thumbs.db

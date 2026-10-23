@@ -1,0 +1,92 @@
+name: php2shell-lab
+
+x-php-common: &php-common
+  restart: "no"
+  mem_limit: 256m
+  cpus: 1.0
+  pids_limit: 128
+  shm_size: 64m
+  security_opt:
+    - no-new-privileges:true
+  tmpfs:
+    - /tmp:size=67108864,mode=1777
+    - /var/run/apache2:size=8388608,mode=0755
+    - /var/lock/apache2:size=8388608,mode=0755
+  networks:
+    - isolated
+  healthcheck:
+    # Do not send PHP requests from the healthcheck. This lab intentionally
+    # uses one persistent prefork worker, and an interleaved request changes
+    # the heap layout between exploit stages. The PoC performs its own HTTP
+    # readiness probe before sending the chain.
+    test:
+      - CMD-SHELL
+      - "kill -0 1 && grep -q ':0050 ' /proc/net/tcp"
+    interval: 3s
+    timeout: 2s
+    retries: 20
+    start_period: 5s
+
+services:
+  vulnerable:
+    <<: *php-common
+    container_name: php2shell-target
+    image: php:8.4.26-apache@sha256:b0ae0e0d4a3b7f0e800017482752b94f58ab049f2d7fcd108e5452afce3f50d1
+    environment:
+      LAB_VARIANT: vulnerable
+    ports:
+      - "127.0.0.1:8088:80"
+    volumes:
+      - ./www:/site:ro
+      - ./config/vulnerable.ini:/usr/local/etc/php/conf.d/zz-php2shell-lab.ini:ro
+      - ./config/servername.conf:/etc/apache2/conf-enabled/zz-php2shell-servername.conf:ro
+      - ./config/apache-single-worker.conf:/etc/apache2/conf-enabled/zz-php2shell-single-worker.conf:ro
+      - ../out:/out
+    command:
+      - /bin/sh
+      - -c
+      - rm -f /out/p1 /out/c /out/shell.enabled /out/shell-token.pending; rm -rf /var/www/html/*; cp -a /site/. /var/www/html/; chown -R www-data:www-data /var/www/html 2>/dev/null || true; chmod 0777 /out; exec apache2-foreground
+
+  patched:
+    <<: *php-common
+    container_name: php2shell-patched
+    image: php:8.4.27-apache@sha256:4a495b1ae6a66f00f2eb3b0eae4f8787cad32ba9298ea85576af64ed5fb74813
+    environment:
+      LAB_VARIANT: patched
+    ports:
+      - "127.0.0.1:8089:80"
+    volumes:
+      - ./www:/site:ro
+      - ./config/vulnerable.ini:/usr/local/etc/php/conf.d/zz-php2shell-lab.ini:ro
+      - ./config/servername.conf:/etc/apache2/conf-enabled/zz-php2shell-servername.conf:ro
+      - ./config/apache-single-worker.conf:/etc/apache2/conf-enabled/zz-php2shell-single-worker.conf:ro
+      - ../out/patched:/out
+    command:
+      - /bin/sh
+      - -c
+      - rm -f /out/p1 /out/c /out/shell.enabled /out/shell-token.pending; rm -rf /var/www/html/*; cp -a /site/. /var/www/html/; chown -R www-data:www-data /var/www/html 2>/dev/null || true; chmod 0777 /out; exec apache2-foreground
+
+  mitigated:
+    <<: *php-common
+    container_name: php2shell-mitigated
+    image: php:8.4.26-apache@sha256:b0ae0e0d4a3b7f0e800017482752b94f58ab049f2d7fcd108e5452afce3f50d1
+    environment:
+      LAB_VARIANT: mitigated
+    ports:
+      - "127.0.0.1:8090:80"
+    volumes:
+      - ./www:/site:ro
+      - ./config/mitigated.ini:/usr/local/etc/php/conf.d/zz-php2shell-lab.ini:ro
+      - ./config/servername.conf:/etc/apache2/conf-enabled/zz-php2shell-servername.conf:ro
+      - ./config/apache-single-worker.conf:/etc/apache2/conf-enabled/zz-php2shell-single-worker.conf:ro
+      - ../out/mitigated:/out
+    command:
+      - /bin/sh
+      - -c
+      - rm -f /out/p1 /out/c /out/shell.enabled /out/shell-token.pending; rm -rf /var/www/html/*; cp -a /site/. /var/www/html/; chown -R www-data:www-data /var/www/html 2>/dev/null || true; chmod 0777 /out; exec apache2-foreground
+
+networks:
+  isolated:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "false"

