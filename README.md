@@ -1,13 +1,29 @@
 <p align="center">
-  <img src="Banner.jpg" alt="Zarxec Lab PHP2Shell CVE-2026-109618 and CVE-2026-109619 banner">
+  <img src="Banner.jpg" alt="Zarxec Lab PHP2Shell CVE-2026-109618 and CVE-2026-109619 banner" width="100%">
 </p>
 
 <h1 align="center">PHP2Shell - CVE-2026-109618 / CVE-2026-109619</h1>
 
 <p align="center">
-  Reproducible, loopback-only research lab for the PHP OOM-corruption and
-  stale-global-state vulnerabilities.<br>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10 or newer">
+  <img src="https://img.shields.io/badge/PHP-8.4.26-777BB4?logo=php&logoColor=white" alt="PHP 8.4.26 vulnerable control">
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white" alt="Docker Compose lab">
+  <img src="https://img.shields.io/badge/scope-loopback--only-C62828" alt="Scope: loopback only">
+</p>
+
+<p align="center">
+  A reproducible, safety-constrained research lab for the PHP OOM-corruption
+  and stale-global-state vulnerabilities.<br>
   Zarxec Lab integration by <strong>Zake</strong> (<code>zake1god</code>).
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> &bull;
+  <a href="#assess-an-authorized-website-safely">Safe Assessment</a> &bull;
+  <a href="#tutorial-run-the-web-server-lab">Run the Lab</a> &bull;
+  <a href="#tutorial-run-the-poc-script">Run the PoC</a> &bull;
+  <a href="#mitigation-and-source-patching">Mitigation</a> &bull;
+  <a href="#responsible-use">Responsible Use</a>
 </p>
 
 > [!CAUTION]
@@ -16,6 +32,18 @@
 > private staging clone. OOM and worker-reuse testing can crash or restart PHP
 > workers. The separate `check` mode is a passive, TLS-verified GET suitable
 > for an authorized domain or IP.
+
+## Demonstration
+
+<p align="center">
+  <a href="video-poc.gif">
+    <img src="video-poc.gif" alt="Loopback-only PHP2Shell proof-of-concept demonstration" width="800">
+  </a>
+</p>
+
+<p align="center">
+  <sub><strong>Loopback-only private-lab demonstration.</strong> Click the preview to view it at full size.</sub>
+</p>
 
 ## Overview
 
@@ -532,6 +560,7 @@ The second removes generated proof artifacts while preserving `.gitkeep`.
 ```text
 .
 ├── Banner.jpg
+├── video-poc.gif
 ├── README.md
 ├── poc-cve-2026-109618.py
 ├── docker/
